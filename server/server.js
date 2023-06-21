@@ -1,24 +1,22 @@
 const express = require('express');
 const app = express();
 const port = 1000;
-let arr;
+
 // To get data from the python server 
 const spawn = require("child_process").spawn;
-
+var obj;
 // The following are the -> language, [file path , ...arguments]  
 // * arguments can be assessible using the sys.arg1 function
-var process = spawn('python',["./python_source/test.py", "Piiush", "Arora"] );
+var process = spawn('python',["./python_source/test.py", "Piyush", "Arora"] );
 
 // access data from here onwards
 process.stdout.on('data', function(data){
-    arr = data
-    console.log(data.toString());
-    // console.log(data.toJSON());
-    // Data is travel as buffer
+    obj = JSON.parse(data);
+    console.log(obj);
 })
 
 app.get('/', (req, res) =>{
-  res.send(`message: ${String.fromCharCode(arr[0])}`);
+  res.send(`message: ${JSON.stringify(obj)}`);
 })
 
 app.listen(port, () => {

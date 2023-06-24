@@ -1,5 +1,4 @@
 const app = require('./app');
-const { processPython } = require('./Pfunc');
 const port = 1000;
 
 

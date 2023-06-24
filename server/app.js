@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const { processPython } = require('./Pfunc');
+const { processPython } = require('./JsPythonConnector');
 
 const corsOptions ={
     origin:'http://localhost:3000', 
@@ -21,34 +21,16 @@ app.get('/', (req, res) =>{
 })
   
 
-
-// some issues with integration async await and language (For recommendations only #buggy #no use)
+// Note : this is a test api that asks for responses from python file test.py and send params to it and log the response
 app.get('/test', async(req, res) =>{
-    console.log("undefined test before test");
-   function test(){
-    return new Promise((resolve, reject) => {
-        processPython("./python_source/test.py", ["hello", "world"]).then((data) => {
-            console.log(typeof(data));
-          return data;
-        })
-        .catch((error) => { 
-            console.log(error.message);
-          return error;
-        });
-    
-        
-      });
+  let response;
+    try {
+        response =await processPython("./python_source/test.py", ["Panchi", "Kabbi"]);
+        console.log(response);
+    } catch (error) {
+        console.log("Error (at app.js): " + error.message);
     }
-    
-    async function main() {
-      const result = await test();
-      console.log(result);
-    }
-    
-    main();
-    
-    console.log("undefined test after test");
-    res.send(`res is working on fine`);
+    res.send(`res is working on fine ${JSON.stringify(response)}`);
 })
   
 

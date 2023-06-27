@@ -1,16 +1,52 @@
-import { Fragment, useState } from 'react'
-import { Dialog, Popover, Tab, Transition } from '@headlessui/react'
-import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
-import Example from './UserDropdown'
+import { Fragment, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+
+import { Bars3Icon, MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { Dialog, Popover, Tab, Transition } from '@headlessui/react';
+import UserDropdown from './UserDropdown';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+
+function classNames(...classes) {
+  return classes.filter(Boolean).join(' ')
+}
 
 const navigation = {
   categories: [
     {
       id: 'Categories',
-      name: 'Clothing',
+      name: 'Categories',
       featured: [
+        {
+          name: 'New Arrivals',
+          href: '#',
+          imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-category-03.jpg',
+          imageAlt: 'Models sitting back to back, wearing Basic Tee in black and bone.',
+        },
+        {
+          name: 'New Arrivals',
+          href: '#',
+          imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-category-03.jpg',
+          imageAlt: 'Models sitting back to back, wearing Basic Tee in black and bone.',
+        },
+        {
+          name: 'New Arrivals',
+          href: '#',
+          imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-category-03.jpg',
+          imageAlt: 'Models sitting back to back, wearing Basic Tee in black and bone.',
+        },
+        {
+          name: 'New Arrivals',
+          href: '#',
+          imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-category-03.jpg',
+          imageAlt: 'Models sitting back to back, wearing Basic Tee in black and bone.',
+        },
+        {
+          name: 'New Arrivals',
+          href: '#',
+          imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-category-03.jpg',
+          imageAlt: 'Models sitting back to back, wearing Basic Tee in black and bone.',
+        },
         {
           name: 'New Arrivals',
           href: '#',
@@ -25,36 +61,15 @@ const navigation = {
         },
       ],
     },
-    // {
-    //   id: 'women',
-    //   name: 'Women',
-    //   featured: [
-    //     {
-    //       name: 'New Arrivals',
-    //       href: '#',
-    //       imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-category-01.jpg',
-    //       imageAlt: 'Models sitting back to back, wearing Basic Tee in black and bone.',
-    //     },
-    //     {
-    //       name: 'Basic Tees',
-    //       href: '#',
-    //       imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-category-02.jpg',
-    //       imageAlt: 'Close up of Basic Tee fall bundle with off-white, ochre, olive, and black tees.',
-    //     },
-    //   ],
-    // },
   ],
+  
 
 }
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
-}
 
-export default function Navbar() {
-  const [open, setOpen] = useState(false)
-  const { isAuthenticated, user } = useSelector((state) => state.user);
-    console.log(isAuthenticated,user);
+export default function Navbar(){
+    const [open, setOpen] = useState(false);
+    const { isAuthenticated, user } = useSelector((state) => state.user);
   return (
     <div className="bg-white">
       {/* Mobile menu */}
@@ -169,6 +184,7 @@ export default function Navbar() {
         </Dialog>
       </Transition.Root>
 
+
       <header className="relative bg-white z-40">
         <nav aria-label="Top" className="mx-auto max-w-7xl sm:px-6 lg:px-1">
           <div className="border-b border-gray-200">
@@ -184,14 +200,14 @@ export default function Navbar() {
 
               {/* Logo */}
               <div className="ml-4 flex lg:ml-0">
-                <a href="#">
+                <Link to="/">
                   <span className="sr-only">Your Company</span>
                   <img
                     className="h-8 w-auto"
                     src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                     alt=""
                   />
-                </a>
+                </Link>
               </div>
 
               {/* Flyout menus */}
@@ -229,11 +245,11 @@ export default function Navbar() {
 
                               <div className="relative bg-white">
                                 <div className="mx-auto max-w-7xl px-8">
-                                  <div className="grid grid-cols-2 gap-x-8 gap-y-10 py-16">
-                                    <div className="col-start-1 grid grid-cols-2 gap-x-8">
+                                  <div className="grid grid-cols-1 gap-x-8 gap-y-10 py-16">
+                                    <div className="col-start-1 grid grid-cols-5 gap-x-8">
                                       {category.featured.map((item) => (
                                         <div key={item.name} className="group relative text-base sm:text-sm">
-                                          <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75">
+                                          <div className="aspect-h-1 aspect-w-1 h-44 overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75">
                                             <img
                                               src={item.imageSrc}
                                               alt={item.imageAlt}
@@ -265,22 +281,6 @@ export default function Navbar() {
               </Popover.Group>
 
         <div className="ml-auto flex items-center">
-                <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                  {isAuthenticated ?
-                  <Link to={'/login'} className="text-sm font-medium text-gray-700 hover:text-gray-800">
-                    Sign Out
-                  </Link> :
-                  <Link to={'/login'} className="text-sm font-medium text-gray-700 hover:text-gray-800">
-                    Sign in
-                  </Link>
-                }
-                  <span className="h-6 w-px bg-gray-200" aria-hidden="true" />
-                  <a href="#" className="text-sm font-medium text-gray-700 hover:text-gray-800">
-                    Create account
-                  </a>
-                </div> 
-
-
                 {/* Search */}
                 <div className="flex lg:ml-6">
                   <a href="#" className="p-2 text-gray-400 hover:text-gray-500">
@@ -289,16 +289,17 @@ export default function Navbar() {
                   </a>
                 </div>
                 
-                <Example/>
+                <UserDropdown/>
 
                 {/* Cart */}
                 <div className="ml-4 flow-root lg:ml-6">
                   <Link to="./cart" className="group -m-2 flex items-center p-2">
                     
-                    <ShoppingBagIcon
-                      className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+                    <ShoppingCartIcon
+                      className="h-6 w-6 flex-shrink-0 text-gray-800 group-hover:text-black"
                       aria-hidden="true"
                     />
+                  
                     <span className="sr-only">items in cart, view bag</span>
                   </Link>
                 </div>
@@ -310,3 +311,9 @@ export default function Navbar() {
     </div>
   )
 }
+
+
+//  Notes:
+// Types of states :
+//  1. open, isAuthenticated : boolean ; 
+//  2. user : object;

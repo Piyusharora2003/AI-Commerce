@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
-import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Menu, Transition } from '@headlessui/react'
+// import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -11,17 +11,12 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import { useSnackbar } from 'notistack'
 import {logoutUser} from "../../actions/userAction.js"
-
-const navigation = [
-  { name: 'Dashboard', href: '#', current: true },
-  { name: 'Team', href: '#', current: false },
-  { name: 'Projects', href: '#', current: false },
-  { name: 'Calendar', href: '#', current: false },
-  { name: 'Reports', href: '#', current: false },
-]
+import LoginIcon from '@mui/icons-material/Login';
 
 const admin =  { name: 'Admin Dashboard', href: '/admin/dashboard', icons: <DashboardIcon sx={{ fontSize: "18px" }} /> };
-const signout =   { name: 'Sign out', icons: <LogoutIcon sx={{ fontSize: "18px" }} /> };
+const signout ={ name: 'Sign out', icons: <LogoutIcon sx={{ fontSize: "18px" }} /> };
+const signIn ={ name: 'Sign In', icons: <LoginIcon sx={{ fontSize: "18px" }} /> };
+const nouser = {url:"https://w7.pngwing.com/pngs/683/60/png-transparent-man-s-profile-illustration-computer-icons-user-profile-profile-ico-photography-silhouette-desktop-wallpaper-thumbnail.png"};
 
 const userNavigation = [
   { name: 'Your Profile', href: '/account', icons: <AccountCircleIcon sx={{ fontSize: "18px" }} /> },
@@ -50,15 +45,14 @@ export default function UserDropdown() {
     }
     
 
-    if(!isAuthenticated || !user) return <>loading...</>
+    // if(!isAuthenticated || !user) return <>loading...</>
 
   return (
     <Menu as="div" className="relative ml-3">
     <div>
-      <Menu.Button className="flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+      <Menu.Button className="flex max-w-xs items-center rounded-full bg-gray-800 text-sm ">
         <span className="sr-only">Open user menu</span>
-        {user.avatar && <img className="h-8 w-8 rounded-full" src={user.avatar.url} alt="" />}
-        
+        <img className="h-9 w-9 rounded-full" src={isAuthenticated ? user.avatar.url : nouser.url} alt="" />
         </Menu.Button>
     </div>
     <Transition
@@ -72,7 +66,7 @@ export default function UserDropdown() {
     >
       <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
         {
-            user.role === 'admin' && 
+           user && user.role === 'admin' && 
             <Menu.Item key={admin.name}>
             {({ active }) => (
               <Link
@@ -83,13 +77,14 @@ export default function UserDropdown() {
                 )}
               >
                 <div className='p-1 ps-0 font-medium flex '>
-                <div className=' pe-2'>    
-                    {admin.icons}
-                </div>
+                  <div className=' pe-2'>    
+                      {admin.icons}
+                  </div>
                 <div className='w-100'>
-                {admin.name}
+                  {admin.name}
                 </div>
-                </div>              </Link>
+                </div>
+              </Link>
             )}
           </Menu.Item>
         }
@@ -118,8 +113,9 @@ export default function UserDropdown() {
           </Menu.Item>
         ))}
 
-{
-            isAuthenticated === true && 
+
+        {
+            isAuthenticated === true ?
             <Menu.Item key={signout.name}>
             {({ active }) => (
               <div
@@ -137,6 +133,27 @@ export default function UserDropdown() {
                 {signout.name}
                 </div>
                 </div>              </div>
+            )}
+          </Menu.Item>
+          :
+          <Menu.Item key={signout.name}>
+            {({ active }) => (
+              <Link
+                to='/login'
+                className={classNames(
+                  active ? 'bg-gray-100' : '',
+                  'block px-4 py-2 text-sm text-gray-700'
+                )}
+              >
+                <div className='p-1 ps-0 font-medium flex '>
+                <div className=' pe-2'>    
+                    {signIn.icons}
+                </div>
+                <div className='w-100'>
+                  {signIn.name}
+                </div>
+                </div>
+              </Link>
             )}
           </Menu.Item>
         }

@@ -36,6 +36,7 @@ import UpdateUser from './components/Admin/UpdateUser';
 import ReviewsTable from './components/Admin/ReviewsTable';
 import Wishlist from './components/Wishlist/Wishlist';
 import NotFound from './components/NotFound';
+import Navbar from './components/Navbar/Navbar';
 
 function App() {
 
@@ -67,6 +68,7 @@ function App() {
   
   return (
     <>
+      <Navbar/>
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />

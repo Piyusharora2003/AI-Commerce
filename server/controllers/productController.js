@@ -307,3 +307,19 @@ exports.deleteReview = asyncErrorHandler(async (req, res, next) => {
         success: true,
     });
 });
+
+// Get All Brands
+exports.getAllBrands = asyncErrorHandler(async (req, res, next) =>{
+    try {
+        const Brands = await Product.distinct('brand.name');
+        res.status(200).json({
+            success: true,
+            Brands,
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message
+        })
+    }
+});

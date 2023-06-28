@@ -16,10 +16,12 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import StarIcon from '@mui/icons-material/Star';
 import { categories } from '../../utils/constants';
 import MetaData from '../Layouts/MetaData';
-import { getRandomProducts } from '../../utils/functions';
+// import { getRandomProducts } from '../../utils/functions';
 import { useLocation } from 'react-router-dom';
+import axios from 'axios';
 
 const Products = () => {
+
 
     const dispatch = useDispatch();
     const { enqueueSnackbar } = useSnackbar();
@@ -30,11 +32,15 @@ const Products = () => {
     const [category, setCategory] = useState(location.search ? location.search.split("=")[1] : "");
     const [ratings, setRatings] = useState(0);
 
+    //Get names of all brands 
+    const[Companys,setCompanys] = useState([]);
+
     // pagination
     const [currentPage, setCurrentPage] = useState(1);
 
     // filter toggles
     const [categoryToggle, setCategoryToggle] = useState(true);
+    const [Companytoggle, setCompanytoggle] = useState(false);
     const [ratingsToggle, setRatingsToggle] = useState(true);
 
     const { products, loading, error, productsCount, resultPerPage, filteredProductsCount } = useSelector((state) => state.products);
@@ -58,6 +64,18 @@ const Products = () => {
         dispatch(getProducts(keyword, category, price, ratings, currentPage));
     }, [dispatch, keyword, category, price, ratings, currentPage, error, enqueueSnackbar]);
 
+    useEffect(()=>{
+        async function getallBrands(){
+            const res = await axios.get('/api/v1/products/brands');
+            if(res.status === 200){
+                setCompanys(res.data.Brands);
+            }
+            else{
+                console.log("error in getting brands data \n error message :",res.data.error);
+            }     
+        }
+        getallBrands();
+    },[])
     return (
         <>
             <MetaData title="All Products | Flipkart" />
@@ -123,7 +141,7 @@ const Products = () => {
                                                     value={category}
                                                 >
                                                     {categories.map((el, i) => (
-                                                        <FormControlLabel value={el} control={<Radio size="small" />} label={<span className="text-sm" key={i}>{el}</span>} />
+                                                        <FormControlLabel key={i} value={el} control={<Radio size="small" />} label={<span className="text-sm" key={i}>{el}</span>} />
                                                     ))}
                                                 </RadioGroup>
                                             </FormControl>
@@ -132,6 +150,40 @@ const Products = () => {
 
                                 </div>
                                 {/* category filter */}
+
+
+                                {/* category filter */}
+                                <div className="flex flex-col border-b px-4">
+
+                                    <div className="flex justify-between cursor-pointer py-2 pb-4 items-center" onClick={() => setCompanytoggle(!Companytoggle)}>
+                                        <p className="font-medium text-xs uppercase">Company</p>
+                                        {Companytoggle ?
+                                            <ExpandLessIcon sx={{ fontSize: "20px" }} /> :
+                                            <ExpandMoreIcon sx={{ fontSize: "20px" }} />
+                                        }
+                                    </div>
+
+                                    {Companytoggle && (
+                                        <div className="flex flex-col pb-1">
+                                            <FormControl>
+                                                <RadioGroup
+                                                    aria-labelledby="category-radio-buttons-group"
+                                                    onChange={(e) => setCategory(e.target.value)}
+                                                    name="category-radio-buttons"
+                                                    value={category}
+                                                >
+                                                    {Companys.map((el, i) => (
+                                                        <FormControlLabel value={el} key={i} control={<Radio size="small" />} label={<span className="text-sm">{el}</span>} />
+                                                    ))}
+                                                </RadioGroup>
+                                            </FormControl>
+                                        </div>
+                                    )}
+
+                                </div>
+                                {/* category filter */}
+
+
 
                                 {/* ratings filter */}
                                 <div className="flex flex-col border-b px-4">

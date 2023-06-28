@@ -20,22 +20,19 @@ import RadioGroup from '@mui/material/RadioGroup';
 import MetaData from '../Layouts/MetaData';
 
 const Payment = () => {
+    const { user } = useSelector((state) => state.user);
+    async function verifyPayment(){
+        const res = await axios.post('/verifyPayable',{
+            userimage: ""
+        })
+    }
 
     const dispatch = useDispatch();
-    // const navigate = useNavigate();
     const { enqueueSnackbar } = useSnackbar();
-    // const stripe = useStripe();
-    // const elements = useElements();
-    // const paymentBtn = useRef(null);
-
     const [payDisable, setPayDisable] = useState(false);
-
     const { shippingInfo, cartItems } = useSelector((state) => state.cart);
-    const { user } = useSelector((state) => state.user);
     const { error } = useSelector((state) => state.newOrder);
-
     const totalPrice = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-
     const paymentData = {
         amount: Math.round(totalPrice),
         email: user.email,
@@ -53,7 +50,7 @@ const Payment = () => {
 
         // paymentBtn.current.disabled = true;
         setPayDisable(true);
-
+        let verified =  verifyPayment();
         try {
             const config = {
                 headers: {

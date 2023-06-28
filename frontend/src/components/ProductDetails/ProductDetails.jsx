@@ -1,12 +1,15 @@
-import { useSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import Slider from 'react-slick';
+import { useSnackbar } from 'notistack';
 import { clearErrors, getProductDetails, getSimilarProducts, newReview } from '../../actions/productAction';
 import { NextBtn, PreviousBtn } from '../Home/Banner/Banner';
 import ProductSlider from '../Home/ProductSlider/ProductSlider';
+import MetaData from '../Layouts/MetaData';
 import Loader from '../Layouts/Loader';
+
+// Icons
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import FlashOnIcon from '@mui/icons-material/FlashOn';
 import StarIcon from '@mui/icons-material/Star';
@@ -21,11 +24,13 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Rating from '@mui/material/Rating';
 import TextField from '@mui/material/TextField';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+
 import { NEW_REVIEW_RESET } from '../../constants/productConstants';
 import { addItemsToCart } from '../../actions/cartAction';
 import { getDeliveryDate, getDiscount } from '../../utils/functions';
 import { addToWishlist, removeFromWishlist } from '../../actions/wishlistAction';
-import MetaData from '../Layouts/MetaData';
+
 
 const ProductDetails = () => {
 
@@ -175,7 +180,11 @@ const ProductDetails = () => {
                                 {/* <!-- whole product description --> */}
                                 <div className="flex flex-col gap-2 mb-4">
 
-                                    <h2 className="text-xl">{product.name}</h2>
+                                    <h2 className="text-xl">{product.name} by
+                                        <Link className="font-medium text-base text-primary-blue ml-3" to="/">
+                                            {product.brand && product.brand.name}
+                                        </Link>
+                                    </h2>
                                     {/* <!-- rating badge --> */}
                                     <span className="text-sm text-gray-500 font-medium flex gap-2 items-center">
                                         <span className="text-xs px-1.5 py-0.5 bg-primary-green rounded-sm text-white flex items-center gap-0.5">{product.ratings && product.ratings.toFixed(1)} <StarIcon sx={{ fontSize: "12px" }} /></span>
@@ -205,22 +214,9 @@ const ProductDetails = () => {
                                     ))}
                                     {/* <!-- banks offers --> */}
 
-                                    {/* <!-- warranty & brand --> */}
-                                    <div className="flex gap-8 mt-2 items-center text-sm">
-                                        <img draggable="false" className="w-20 h-8 p-0.5 border object-contain" src={product.brand?.logo.url} alt={product.brand && product.brand.name} />
-                                        <span>{product.warranty} Year Warranty <Link className="font-medium text-primary-blue" to="/">Know More</Link></span>
-                                    </div>
-                                    {/* <!-- warranty & brand --> */}
-
-                                    {/* <!-- delivery details --> */}
-                                    <div className="flex gap-16 mt-4 items-center text-sm font-medium">
-                                        <p className="text-gray-500">Delivery</p>
-                                        <span>Delivery by {getDeliveryDate()}</span>
-                                    </div>
-                                    {/* <!-- delivery details --> */}
 
                                     {/* <!-- highlights & services details --> */}
-                                    <div className="flex flex-col sm:flex-row justify-between">
+                                    <div className="flex flex-col sm:flex-row justify-between pe-6 me-2">
                                         {/* <!-- highlights details --> */}
                                         <div className="flex gap-16 mt-4 items-stretch text-sm">
                                             <p className="text-gray-500 font-medium">Highlights</p>
@@ -236,11 +232,11 @@ const ProductDetails = () => {
                                         {/* <!-- highlights details --> */}
 
                                         {/* <!-- services details --> */}
-                                        <div className="flex gap-16 mt-4 mr-6 items-stretch text-sm">
+                                        <div className="flex gap-12 mt-4 mr-6 items-stretch text-sm">
                                             <p className="text-gray-500 font-medium">Services</p>
                                             <ul className="flex flex-col gap-2">
                                                 <li>
-                                                    <p className="flex items-center gap-3"><span className="text-primary-blue"><VerifiedUserIcon sx={{ fontSize: "18px" }} /></span> {product.warranty} Year</p>
+                                                    <p className="flex items-center gap-3"><span className="text-primary-blue"><VerifiedUserIcon sx={{ fontSize: "18px" }} /></span> {product.warranty} Year Warranty</p>
                                                 </li>
                                                 <li>
                                                     <p className="flex items-center gap-3"><span className="text-primary-blue"><CachedIcon sx={{ fontSize: "18px" }} /></span> 7 Days Replacement Policy</p>
@@ -248,24 +244,14 @@ const ProductDetails = () => {
                                                 <li>
                                                     <p className="flex items-center gap-3"><span className="text-primary-blue"><CurrencyRupeeIcon sx={{ fontSize: "18px" }} /></span> Cash on Delivery available</p>
                                                 </li>
+                                                <li>
+                                                    <p className="flex items-center gap-3"><span className="text-primary-blue"><LocalShippingIcon sx={{ fontSize: "18px" }} /></span>Delivery by {getDeliveryDate()}</p>
+                                                </li>
                                             </ul>
                                         </div>
                                         {/* <!-- services details --> */}
                                     </div>
                                     {/* <!-- highlights & services details --> */}
-
-                                    {/* <!-- seller details --> */}
-                                    <div className="flex gap-16 mt-4 items-center text-sm font-medium">
-                                        <p className="text-gray-500">Seller</p>
-                                        <Link className="font-medium text-primary-blue ml-3" to="/">{product.brand && product.brand.name}</Link>
-                                    </div>
-                                    {/* <!-- seller details --> */}
-
-                                    {/* <!-- flipkart plus banner --> */}
-                                    <div className="sm:w-1/2 mt-4 border">
-                                        <img draggable="false" className="w-full h-full object-contain" src="https://rukminim1.flixcart.com/lockin/763/305/images/promotion_banner_v2_active.png" alt="" />
-                                    </div>
-                                    {/* <!-- flipkart plus banner --> */}
 
                                     {/* <!-- description details --> */}
                                     <div className="flex flex-col sm:flex-row gap-1 sm:gap-14 mt-4 items-stretch text-sm">

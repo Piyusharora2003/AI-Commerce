@@ -37,8 +37,10 @@ function WebcamImage({img,setImg,verifyImage}) {
       ) : (
         <>
           <img src={img} alt="screenshot"/>
-          <div onClick={() => setImg(null)}>Retake</div>
-          <div onClick={() => verifyImage()}>Verify</div>
+          <div className="flex w-full justify-evenly text-center">
+            <div className="w-2/4	" style={{backgroundColor:"rgb(214 211 209)"}} onClick={() => setImg(null)}>Retake</div>
+            <div className="w-2/4 " style={{backgroundColor:"rgb(52 211 153)"}} onClick={() => verifyImage()}>Verify</div>
+          </div>
         </>
       )}
     </div>

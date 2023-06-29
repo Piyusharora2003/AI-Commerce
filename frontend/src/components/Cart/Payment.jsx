@@ -56,13 +56,15 @@ const Payment = () => {
             // alert("Verify Your identification");
             
             try{
-                // const res = await axios.post('/verifyPayable',{
-                //     userImage: user.avatar.url,
-                //     currentImage:ImageData
-                // })
-                if(true===true) SetIsVerified(true);
+                const res = await axios.post('/api/v1/py/testapi',{
+                    userImage: user.avatar.url,
+                    currentImage:ImageData
+                })
+                console.log(res.data.verified);
+                if(res.data.verified) SetIsVerified(true);
                 else{
-                    enqueueSnackbar("Verification Failed !", { variant: "error" });
+                    alert("Verification Failed");
+                    SetIsVerified(false);
                 }
             }
             catch(err){
@@ -138,21 +140,25 @@ const Payment = () => {
                                     </FormControl>
                                     
 
-                                    <div className={`font-bold w-max border-2 border-sky-800 px-3 ms-6 cursor-pointer rounded-sm  py-1 capitalize text-slate-800`}
+                                    {
+                                        !IsVerified &&
+                                        <div className={`font-bold w-max border-2 border-sky-800 px-3 ms-6 cursor-pointer rounded-sm  py-1 capitalize text-slate-800`}
                                         style={{ 'backgroundColor' :IsVerified ? 'rgb(74 222 128)': 'rgb(244 63 94)'}}
                                         onClick={initializeVerification} >
                                             Verify Your Identity
-                                    </div>
+                                        </div>
+                                    }
                                     {/* OPENS AFTER INITIALIZING PROCESS */}
                                 <div className='w-100'>
 
                                     {
-                                        verifying &&
+                                        !IsVerified
+                                        &&verifying &&
                                         <WebcamImage img={ImageData} setImg={SetImageData} verifyImage = {VerifyImage}/>
                                     }
                             
                                     </div>
-                                    <input  type="submit" value={`Pay ₹${totalPrice.toLocaleString()}`} disabled={(payDisable ? true : false) || !IsVerified} className={`${payDisable ? "bg-primary-grey cursor-not-allowed" : "bg-primary-orange cursor-pointer"} w-1/2 sm:w-1/4 my-2 py-3 font-medium text-white shadow hover:shadow-lg rounded-sm uppercase outline-none`} />
+                                    <input type="submit" value={`Pay ₹${totalPrice.toLocaleString()}`} disabled={(payDisable ? true : false) || !IsVerified} className={`${payDisable ? "bg-primary-grey cursor-not-allowed" : "bg-primary-orange cursor-pointer"}  my-2 py-3 font-medium text-white shadow hover:shadow-lg rounded-sm uppercase outline-none`} />
                                 </form>
 
                             </div>

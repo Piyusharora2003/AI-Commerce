@@ -1,10 +1,11 @@
 import sys
 import json
+import random
 arr = [1,2,3,4,5]
 x = {
-  "name": sys.argv[1],
-  "age": len(arr),
-  "city": "New York"
+  "isverified":True,
+  "len_1":len(sys.argv[1]),
+  "len_2":len(sys.argv[2]),
 }
 # sys.argv[1] is the first argument passed to the function
 y = json.dumps(x)

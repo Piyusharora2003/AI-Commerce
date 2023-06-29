@@ -6,10 +6,11 @@ const errorMiddleware = require('./middleware/error.js');
 const fileUpload = require('express-fileupload');
 const cookieParser = require('cookie-parser');
 
-const user = require('./routes/userRoute');
-const product = require('./routes/productRoute');
-const order = require('./routes/orderRoute');
-const payment = require('./routes/paymentRoute');
+const user = require('./routes/userRoute.js');
+const product = require('./routes/productRoute.js');
+const order = require('./routes/orderRoute.js');
+const payment = require('./routes/paymentRoute.js');
+const python = require('./routes/pythonRoutes.js');
 
 const corsOptions ={
     origin:'http://localhost:3000', 
@@ -28,25 +29,13 @@ app.use(cookieParser());
 app.get('/', (req, res) =>{
     res.send(`Hello is it working on fine and`);
 })
-  
-
-// Note : this is a test api that asks for responses from python file test.py and send params to it and log the response
-app.get('/test', async(req, res) =>{
-  let response;
-    try {
-        response =await processPython("./python_source/test.py", ["Panchi", "Kabbi"]);
-        console.log(response);
-    } catch (error) {
-        console.log("Error (at app.js): " + error.message);
-    }
-    res.send(`res is working on fine ${JSON.stringify(response)}`);
-})
-  
+ 
 
 app.use('/api/v1', user);
 app.use('/api/v1', product);
 app.use('/api/v1', order);
 app.use('/api/v1', payment);
+app.use('/api/v1', python);
 
 
 

@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useRef } from "react";
 import Webcam from "react-webcam";
 
 function WebcamImage({img,setImg,verifyImage}) {
@@ -19,16 +19,20 @@ function WebcamImage({img,setImg,verifyImage}) {
     <div className="Container">
       {img === null ? (
         <>
+        <div className="w-max"> 
           <Webcam
             audio={false}
             mirrored={true}
-            height={350}
-            width={350}
+            height={300}
+            width={300}
             ref={webcamRef}
             screenshotFormat="image/jpeg"
             videoConstraints={videoConstraints}
-          />
-          <button onClick={capture}>Capture photo</button>
+            />
+          <button
+            style={{backgroundColor: 'rgb(74 222 128)'}}
+            className="mx-auto w-full px-2 font-bold py-1 " onClick={capture}>Capture photo</button>
+            </div>
         </>
       ) : (
         <>

@@ -114,11 +114,11 @@ const Payment = () => {
             <MetaData title=" Payment Gateway " />
             <main className="w-full mt-20">
                 <div className="flex flex-col sm:flex-row gap-3.5 w-full sm:w-11/12 mt-0 sm:mt-4 m-auto sm:mb-7">
-                    <div className="flex-1">
+                    <div className="flex-1 w-full">
                         <Stepper activeStep={3}>
-                            <div className="w-full bg-white">
-                                <form onSubmit={(e) => submitHandler(e)} autoComplete="off" className="flex flex-col justify-start gap-2 w-full mx-8 my-4 overflow-hidden">
-                                    <FormControl>
+                            <div className="w-full bg-white" >
+                                <form onSubmit={(e) => submitHandler(e)} autoComplete="off"  className="flex flex-col justify-start gap-2 w-max mx-8 my-4 overflow-hidden">
+                                    <FormControl className='w-full' >
                                         <RadioGroup
                                             aria-labelledby="payment-radio-group"
                                             defaultValue="paytm"
@@ -128,7 +128,7 @@ const Payment = () => {
                                                 value="paytm"
                                                 control={<Radio />}
                                                 label={
-                                                    <div className="flex items-center gap-4">
+                                                    <div className="flex items-center gap-4 w-full">
                                                         <img draggable="false" className="h-6 w-6 object-contain" src="https://rukminim1.flixcart.com/www/96/96/promos/01/09/2020/a07396d4-0543-4b19-8406-b9fcbf5fd735.png" alt="Paytm Logo" />
                                                         <span>Paytm</span>
                                                     </div>
@@ -138,18 +138,20 @@ const Payment = () => {
                                     </FormControl>
                                     
 
-                                    <div className={`font-bold w-max border-2 border-sky-800 px-3 py-1 capitalize text-slate-800`}
+                                    <div className={`font-bold w-max border-2 border-sky-800 px-3 ms-6 cursor-pointer rounded-sm  py-1 capitalize text-slate-800`}
                                         style={{ 'backgroundColor' :IsVerified ? 'rgb(74 222 128)': 'rgb(244 63 94)'}}
                                         onClick={initializeVerification} >
                                             Verify Your Identity
                                     </div>
                                     {/* OPENS AFTER INITIALIZING PROCESS */}
+                                <div className='w-100'>
 
                                     {
                                         verifying &&
-                                         <WebcamImage img={ImageData} setImg={SetImageData} verifyImage = {VerifyImage}/>
+                                        <WebcamImage img={ImageData} setImg={SetImageData} verifyImage = {VerifyImage}/>
                                     }
-                                
+                            
+                                    </div>
                                     <input  type="submit" value={`Pay ₹${totalPrice.toLocaleString()}`} disabled={(payDisable ? true : false) || !IsVerified} className={`${payDisable ? "bg-primary-grey cursor-not-allowed" : "bg-primary-orange cursor-pointer"} w-1/2 sm:w-1/4 my-2 py-3 font-medium text-white shadow hover:shadow-lg rounded-sm uppercase outline-none`} />
                                 </form>
 

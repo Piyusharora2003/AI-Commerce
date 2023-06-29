@@ -18,19 +18,12 @@ const Cart = () => {
 
     return (
         <>
-            <MetaData title="Shopping Cart | Flipkart" />
+            <MetaData title="Shopping Cart | AI-Commerce" />
             <main className="w-full mt-20">
-
-                {/* <!-- row --> */}
                 <div className="flex flex-col sm:flex-row gap-3.5 w-full sm:w-11/12 mt-0 sm:mt-4 m-auto sm:mb-7">
-
-                    {/* <!-- cart column --> */}
                     <div className="flex-1">
-
-                        {/* <!-- cart items container --> */}
                         <div className="flex flex-col shadow bg-white">
                             <span className="font-medium text-lg px-2 sm:px-8 py-4 border-b">My Cart ({cartItems.length})</span>
-
                             {cartItems && cartItems.length === 0 && (
                                 <EmptyCart />
                             )}

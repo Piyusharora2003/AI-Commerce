@@ -31,13 +31,14 @@ const Banner = () => {
 
   const settings = {
     autoplay: true,
-    autoplaySpeed: 2000,
+    autoplaySpeed: 2500,
     dots: false,
     infinite: true,
-    speed: 500,
+    speed: 400,
+    arrows: false,
     slidesToShow: 1,
     slidesToScroll: 1,
-    prevArrow: <PreviousBtn />,
+    prevArrow: null,
     nextArrow: <NextBtn />,
   };
 
@@ -45,10 +46,10 @@ const Banner = () => {
 
   return (
     <>
-      <section className="h-44 sm:h-72 w-full rounded-sm shadow relative overflow-hidden">
+      <section className="h-48 sm:h-80 mt-6 w-full rounded-sm shadow relative overflow-hidden">
         <Slider {...settings}>
           {banners.map((el, i) => (
-            <img draggable="false" className="h-44 sm:h-72 w-full object-cover" src={el} alt="banner" key={i} />
+            <img draggable="false" className="h-48 sm:h-80 w-full object-cover" src={el} alt="banner" key={i} />
           ))}
         </Slider>
       </section>

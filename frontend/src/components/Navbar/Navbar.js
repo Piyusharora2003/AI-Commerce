@@ -207,6 +207,7 @@ export default function Navbar(){
                   <span className="sr-only">Company's Logo</span>
                   <img
                     className="h-full  w-auto"
+                    draggable="false"
                     src={LogoUrl}
                     alt=""
                   />
@@ -294,9 +295,3 @@ export default function Navbar(){
     </div>
   )
 }
-
-
-//  Notes:
-// Types of states :
-//  1. open, isAuthenticated : boolean ; 
-//  2. user : object;

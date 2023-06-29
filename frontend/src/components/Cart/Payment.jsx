@@ -12,7 +12,7 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import MetaData from '../Layouts/MetaData';
 import { useNavigate } from 'react-router-dom';
-import WebcamImage from "./WebcamImage.js";
+import WebcamImage from "./WebcamImage.jsx";
 
 
 

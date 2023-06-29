@@ -3,7 +3,7 @@ import Webcam from "react-webcam";
 
 function WebcamImage({img,setImg,verifyImage}) {
   const webcamRef = useRef(null);
-
+  
   const videoConstraints = {
     width: 420,
     height: 420,

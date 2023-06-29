@@ -33,7 +33,7 @@ const Stepper = ({ activeStep, children }) => {
             {steps.map((step, index) => {
 
                 return (
-                    <>
+                    <div key={index}>
                         {activeStep === index ? (
                             <div className="flex flex-col shadow rounded-sm">
                                 <div className="flex items-center rounded-t-sm bg-primary-blue px-6 py-2 gap-4">
@@ -51,7 +51,7 @@ const Stepper = ({ activeStep, children }) => {
                                 )}
                             </>
                         )}
-                    </>
+                    </div>
                 )
             })}
 

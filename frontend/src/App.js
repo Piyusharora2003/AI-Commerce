@@ -1,6 +1,5 @@
 import WebFont from 'webfontloader';
 import Footer from './components/Layouts/Footer/Footer';
-import Header from './components/Layouts/Header/Header';
 import Login from './components/User/Login';
 import Register from './components/User/Register';
 import { Routes, Route, useLocation } from 'react-router-dom';
@@ -69,7 +68,6 @@ function App() {
   return (
     <>
       <Navbar/>
-      <Header />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />

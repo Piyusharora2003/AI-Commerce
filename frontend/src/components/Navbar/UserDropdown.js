@@ -44,15 +44,12 @@ export default function UserDropdown() {
         enqueueSnackbar("Logout Successfully", { variant: "success" });
     }
     
-
-    // if(!isAuthenticated || !user) return <>loading...</>
-
   return (
     <Menu as="div" className="relative ml-3">
     <div>
       <Menu.Button className="flex max-w-xs items-center rounded-full bg-gray-800 text-sm ">
         <span className="sr-only">Open user menu</span>
-        <img className="h-9 w-9 rounded-full" src={isAuthenticated ? user.avatar.url : nouser.url} alt="" />
+        <img className="h-9 w-9 rounded-full" src={isAuthenticated ? user.avatar.url : nouser.url} alt="profile Image" />
         </Menu.Button>
     </div>
     <Transition
@@ -64,7 +61,7 @@ export default function UserDropdown() {
       leaveFrom="transform opacity-100 scale-100"
       leaveTo="transform opacity-0 scale-95"
     >
-      <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+      <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none align-middle	">
         {
            user && user.role === 'admin' && 
             <Menu.Item key={admin.name}>

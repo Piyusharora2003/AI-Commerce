@@ -1,15 +1,20 @@
 import { Fragment, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { Bars3Icon, MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { Dialog, Popover, Tab, Transition } from '@headlessui/react';
 import UserDropdown from './UserDropdown';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import Searchbar from './Searchbar';
+import { useSnackbar } from 'notistack';
+import { logoutUser } from '../../actions/userAction';
+import CartIcon from './CartIcon';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
+
+const LogoUrl = "https://github.com/Piyusharora2003/blog/assets/74443858/053e2178-888d-4d81-879f-ae7b1d9b586f";
 
 const navigation = {
   categories: [
@@ -68,10 +73,19 @@ const navigation = {
 
 
 export default function Navbar(){
+    const dispatch = useDispatch();
+    const { enqueueSnackbar } = useSnackbar();
+    const { isAuthenticated } = useSelector((state) => state.user);
     const [open, setOpen] = useState(false);
-    const { isAuthenticated, user } = useSelector((state) => state.user);
-  return (
-    <div className="bg-white">
+    
+    const handleLogout = () => {
+      dispatch(logoutUser());
+      setOpen(false);
+      enqueueSnackbar("Logout Successfully", { variant: "success" });
+    }
+    return (
+      <div className="bg-white">
+
       {/* Mobile menu */}
       <Transition.Root show={open} as={Fragment}>
         <Dialog as="div" className="relative z-40 lg:hidden" onClose={setOpen}>
@@ -97,19 +111,22 @@ export default function Navbar(){
               leaveFrom="translate-x-0"
               leaveTo="-translate-x-full"
             >
-              <Dialog.Panel className="relative flex w-full max-w-xs flex-col overflow-y-auto bg-white pb-12 shadow-xl">
+              <Dialog.Panel className="relative flex w-full  flex-col overflow-y-auto bg-white pb-12 shadow-xl" style={{"maxWidth":"75%"}}>
                 <div className="flex px-4 pb-2 pt-5">
                   <button
                     type="button"
-                    className="-m-2 inline-flex items-center justify-center rounded-md p-2 text-gray-400"
+                    className="-m-2 inline-flex items-center justify-center rounded-md p-2 pe-5 text-gray-400"
                     onClick={() => setOpen(false)}
                   >
                     <span className="sr-only">Close menu</span>
-                    <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+                    <XMarkIcon className="h-8 w-8" aria-hidden="true" />
                   </button>
+                  <Link to={'/login'} className='w-full h-full'>
+                    <img src={LogoUrl} className='w-8/12 ms-1 me-auto max-h-full	' alt='AI Commerce'/>
+                  </Link>
                 </div>
 
-                {/* Links */}
+                {/* Links  square boxes on opening dialog box mobile view*/}
                 <Tab.Group as="div" className="mt-2">
                   <div className="border-b border-gray-200">
                     <Tab.List className="-mb-px flex space-x-8 px-4">
@@ -131,23 +148,18 @@ export default function Navbar(){
                   <Tab.Panels as={Fragment}>
                     {navigation.categories.map((category) => (
                       <Tab.Panel key={category.name} className="space-y-10 px-4 pb-8 pt-10">
-                        <div className="grid grid-cols-2 gap-x-4">
+                        <div className="grid grid-cols-2 gap-x-4 ">
                           {category.featured.map((item) => (
-                            <div key={item.name} className="group relative text-sm">
+                            <div key={item.name} className="group mb-6 relative text-center text-sm">
                               <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75">
                                 <img src={item.imageSrc} alt={item.imageAlt} className="object-cover object-center" />
                               </div>
-                              <a href={item.href} className="mt-6 block font-medium text-gray-900">
-                                <span className="absolute inset-0 z-10" aria-hidden="true" />
-                                {item.name}
-                              </a>
-                              <p aria-hidden="true" className="mt-1">
-                                Shop now
-                              </p>
+                                <div>
+                                  {item.name}  
+                                </div>
                             </div>
                           ))}
                         </div>
-                
                       </Tab.Panel>
                     ))}
                   </Tab.Panels>
@@ -156,77 +168,70 @@ export default function Navbar(){
 
                 <div className="space-y-6 border-t border-gray-200 px-4 py-6">
                   <div className="flow-root">
-                    <a href="#" className="-m-2 block p-2 font-medium text-gray-900">
-                      Sign in
-                    </a>
-                  </div>
-                  <div className="flow-root">
-                    <a href="#" className="-m-2 block p-2 font-medium text-gray-900">
-                      Create account
-                    </a>
+                    {
+                      isAuthenticated ? 
+                      <button className="-m-2 block p-2 font-medium text-gray-900" onClick={()=>handleLogout()}>
+                          Log Out
+                      </button>
+                      :                     
+                        <Link to={'/login'} onClick={()=>setOpen(false)} className="-m-2 block p-2 font-medium text-gray-900">
+                            Sign In
+                        </Link>
+                    }
                   </div>
                 </div>
 
-                <div className="border-t border-gray-200 px-4 py-6">
-                  <a href="#" className="-m-2 flex items-center p-2">
-                    <img
-                      src="https://tailwindui.com/img/flags/flag-canada.svg"
-                      alt=""
-                      className="block h-auto w-5 flex-shrink-0"
-                    />
-                    <span className="ml-3 block text-base font-medium text-gray-900">CAD</span>
-                    <span className="sr-only">, change currency</span>
-                  </a>
-                </div>
+
               </Dialog.Panel>
             </Transition.Child>
           </div>
         </Dialog>
       </Transition.Root>
 
-
+      {/* Big Screen Menu */}
       <header className="relative bg-white z-40">
         <nav aria-label="Top" className="mx-auto max-w-7xl sm:px-6 lg:px-1">
           <div className="border-b border-gray-200">
-            <div className="flex h-16 items-center">
+            <div className="flex h-16 mx-2 items-center">
               <button
                 type="button"
                 className="rounded-md bg-white p-2 text-gray-400 lg:hidden"
                 onClick={() => setOpen(true)}
               >
                 <span className="sr-only">Open menu</span>
-                <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+                <Bars3Icon className="h-6 w-6 " aria-hidden="true" />
               </button>
 
-              {/* Logo */}
-              <div className="ml-4 flex lg:ml-0">
+              <div className=" flex lg:ml-0 h-full hidden lg:block">
                 <Link to="/">
-                  <span className="sr-only">Your Company</span>
+                  <span className="sr-only">Company's Logo</span>
                   <img
-                    className="h-8 w-auto"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                    className="h-full  w-auto"
+                    src={LogoUrl}
                     alt=""
                   />
                 </Link>
               </div>
 
               {/* Flyout menus */}
-              <Popover.Group className="hidden lg:ml-8 lg:block lg:self-stretch">
+              <Popover.Group className="hidden lg:ml-4 lg:block lg:self-stretch">
                 <div className="flex h-full space-x-8">
                   {navigation.categories.map((category) => (
                     <Popover key={category.name} className="flex">
                       {({ open }) => (
                         <>
-                          <div className="relative flex">
+                          <div className="relative flex ">
                             <Popover.Button
-                              className={classNames(
+                              className={`${classNames(
                                 open
-                                  ? 'border-indigo-600 text-indigo-600'
-                                  : 'border-transparent text-gray-700 hover:text-gray-800',
-                                'relative z-10 -mb-px flex items-center border-b-2 pt-px text-sm font-medium transition-colors duration-200 ease-out'
-                              )}
-                            >
-                              {category.name}
+                                  ? 'border-indigo-600 text-indigo-600 '
+                                  : ' text-gray-700 hover:text-gray-800',
+                                'relative z-10 -mb-px flex  items-center border-b-2 pt-px text-sm font-medium transition-colors duration-200 ease-out'
+                              )}`}
+                            >                              
+                              <span className='font-bold font-sans text-lg	'>
+                                {category.name}
+                              </span>
                             </Popover.Button>
                           </div>
 
@@ -248,21 +253,18 @@ export default function Navbar(){
                                   <div className="grid grid-cols-1 gap-x-8 gap-y-10 py-16">
                                     <div className="col-start-1 grid grid-cols-5 gap-x-8">
                                       {category.featured.map((item) => (
-                                        <div key={item.name} className="group relative text-base sm:text-sm">
+                                        <div key={item.name} className="group relative text-base sm:text-sm mb-4 mt-2">
                                           <div className="aspect-h-1 aspect-w-1 h-44 overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75">
                                             <img
                                               src={item.imageSrc}
                                               alt={item.imageAlt}
-                                              className="object-cover object-center"
+                                              className="object-cover  object-center"
                                             />
                                           </div>
-                                          <a href={item.href} className="mt-6 block font-medium text-gray-900">
+                                          <Link href={item.href} className=" block font-medium text-gray-900">
                                             <span className="absolute inset-0 z-10" aria-hidden="true" />
                                             {item.name}
-                                          </a>
-                                          <p aria-hidden="true" className="mt-1">
-                                            Shop now
-                                          </p>
+                                          </Link>
                                         </div>
                                       ))}
                                     </div>
@@ -279,30 +281,11 @@ export default function Navbar(){
 
                 </div>
               </Popover.Group>
-
-        <div className="ml-auto flex items-center">
-                {/* Search */}
-                <div className="flex lg:ml-6">
-                  <a href="#" className="p-2 text-gray-400 hover:text-gray-500">
-                    <span className="sr-only">Search</span>
-                    <MagnifyingGlassIcon className="h-6 w-6" aria-hidden="true" />
-                  </a>
-                </div>
-                
+              <div className="ms-auto flex items-center">
+                <Searchbar/>
+              
                 <UserDropdown/>
-
-                {/* Cart */}
-                <div className="ml-4 flow-root lg:ml-6">
-                  <Link to="./cart" className="group -m-2 flex items-center p-2">
-                    
-                    <ShoppingCartIcon
-                      className="h-6 w-6 flex-shrink-0 text-gray-800 group-hover:text-black"
-                      aria-hidden="true"
-                    />
-                  
-                    <span className="sr-only">items in cart, view bag</span>
-                  </Link>
-                </div>
+                <CartIcon/>
               </div>
             </div>
           </div>

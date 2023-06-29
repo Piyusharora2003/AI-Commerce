@@ -7,7 +7,7 @@ const Searchbar = () => {
     const [keyword, setKeyword] = useState("");
     const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const querySearch = (e) => {
         e.preventDefault();
         if(keyword.trim()){
             navigate(`/products/${keyword}`)
@@ -17,9 +17,11 @@ const Searchbar = () => {
     }
 
     return (
-        <form onSubmit={handleSubmit} className="w-full sm:w-9/12 px-1 sm:px-4 py-1.5 flex justify-between items-center shadow-md bg-white rounded-sm overflow-hidden">
+        <form 
+              onSubmit={querySearch}
+              className=" sm:w-9/12 px-1 sm:px-4 py-1.5 sm:w-96 flex justify-between items-center shadow-inner border bg-white rounded-sm overflow-hidden w-64">
             <input value={keyword} onChange={(e) => setKeyword(e.target.value)} className="text-sm flex-1 outline-none border-none placeholder-gray-500" type="text" placeholder="Search for products, brands and more" />
-            <button type="submit" className="text-primary-blue"><SearchIcon /></button>
+            <button type="submit" className="text-primary-blue"><SearchIcon/></button>
         </form>
     );
 };

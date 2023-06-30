@@ -94,11 +94,7 @@ function App() {
 
         <Route path="/process/payment" element={
           <ProtectedRoute>
-            {/* // stripeApiKey && ( */}
-            {/* // <Elements stripe={loadStripe(stripeApiKey)}> */}
             <Payment />
-            {/* // </Elements> */}
-            {/* ) */}
           </ProtectedRoute>
         } ></Route>
 

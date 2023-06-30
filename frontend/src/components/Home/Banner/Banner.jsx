@@ -46,10 +46,10 @@ const Banner = () => {
 
   return (
     <>
-      <section className="h-48 sm:h-80 mt-6 w-full rounded-sm shadow relative overflow-hidden">
+      <section className="h-64 sm:h-96 mt-6 w-full rounded-sm shadow relative overflow-hidden">
         <Slider {...settings}>
           {banners.map((el, i) => (
-            <img draggable="false" className="h-48 sm:h-80 w-full object-cover" src={el} alt="banner" key={i} />
+            <img draggable="false" className="h-64 sm:h-96 w-full object-cover" src={el} alt="banner" key={i} />
           ))}
         </Slider>
       </section>

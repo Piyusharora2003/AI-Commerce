@@ -31,7 +31,7 @@ const Products = () => {
     const [price, setPrice] = useState([0, 200000]);
     const [category, setCategory] = useState(location.search ? location.search.split("=")[1] : "");
     const [ratings, setRatings] = useState(0);
-
+    
     //Get names of all brands 
     const[Companys,setCompanys] = useState([]);
 
@@ -195,7 +195,6 @@ const Products = () => {
                                             <ExpandMoreIcon sx={{ fontSize: "20px" }} />
                                         }
                                     </div>
-
                                     {ratingsToggle && (
                                         <div className="flex flex-col pb-1">
                                             <FormControl>
@@ -212,21 +211,13 @@ const Products = () => {
                                             </FormControl>
                                         </div>
                                     )}
-
                                 </div>
-                                {/* ratings filter */}
-
                             </div>
-
                         </div>
-                        {/* <!-- nav tiles --> */}
-
                     </div>
-                    {/* <!-- sidebar column  --> */}
 
                     {/* <!-- search column --> */}
                     <div className="flex-1">
-
                         {!loading && products?.length === 0 && (
                             <div className="flex flex-col items-center justify-center gap-3 bg-white shadow-sm rounded-sm p-6 sm:p-16">
                                 <img draggable="false" className="w-1/2 h-44 object-contain" src="https://static-assets-web.flixcart.com/www/linchpin/fk-cp-zion/img/error-no-search-results_2353c5.png" alt="Search Not Found" />
@@ -255,10 +246,7 @@ const Products = () => {
                             </div>
                         )}
                     </div>
-                    {/* <!-- search column --> */}
                 </div >
-                {/* <!-- row --> */}
-
             </main >
         </>
     );
